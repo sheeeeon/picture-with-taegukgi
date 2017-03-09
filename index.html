@@ -1,0 +1,68 @@
+
+        <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        
+
+
+<div id="content1" width="300px">
+    
+    <div class="alert alert-warning" style=""><strong>Warning!</strong> 프로그램에 오류가 있습니다.</div>
+    <div class="alert alert-warning" style=""><strong>Warning!</strong> 이 사이트는 아직 완성이 덜 됬습니다! 프로그램이 에러를 뿜어낼 지도 모릅니다.</div>
+    <div class="alert alert-info" style=""><strong>Info : </strong> 이 프로그램은 현재 개발 중인 프로젝트입니다.</div>
+    <div class="alert alert-error" style=""><strong>Request : </strong> 프로그램은 아직 <strong>.JPG 또는 .JPEG</strong> 확장자명만 동작합니다. 개발자는 빨리 다른 확장자명을 가진 이미지도 동작하도록 개발해주세요.</div>
+    <br/>
+	<h1>사진에 태극기 달기 v.1.2.0</h1>
+	<form enctype="multipart/form-data" action="picwithtaegukgi/upload.php" method="post" id="Preview" name="Preview">
+    <div class="c1" >
+	파일 업로드 : <input type="file" name="userfile"/> </br>*3mb까지만 가능합니다. 정사각형 이미지가 좋아요!</br></br></br>
+	
+	투명도 : <input type="text" name="opacity" value="40"> %&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30~50% 사이가 좋습니다.
+	<input type="hidden" name="MAX_FILE_SIZE" value="3096" />
+	
+	<p style="color:red">jpg,png 파일도 지원합니다.</p>
+	<input type="submit" style="" value="생성!"/>
+	</form>
+	</div>
+    <div class="c2" >
+        <a href="" id="ImageSrcD" href="" download><img id="ImageSrc" src="" /></a>
+    </div>
+</div>
+</br></br></br>
+
+<script>
+$(".c2").hide();
+    
+$("form#Preview").submit(function(event){	
+    
+//disable the default form submission
+    event.preventDefault();
+
+    var fd = new FormData($(this)[0]);  
+    $.ajax({
+        url: "picwithtaegukgi/upload.php",
+        type: "POST",
+        data: fd,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success:  function(data){
+            if (data != "error") {
+                
+                $(".c1").fadeOut(500);
+                
+                $(".c2").delay(500).fadeIn(500);
+                document.getElementById('ImageSrc').setAttribute('src',"picwithtaegukgi/"+data);
+        document.getElementById('ImageSrcD').setAttribute('href',"picwithtaegukgi/"+data);
+        
+            } else {
+                alert("error!");
+            }
+        }
+    });
+    
+    return false;
+});
+
+</script>
